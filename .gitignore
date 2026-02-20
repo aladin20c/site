@@ -1,0 +1,17 @@
+# IDE folders
+.idea/
+.vscode/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# Optional: Also ignore these common files
+# .env
+# dist/
+# build/
+# *.log
