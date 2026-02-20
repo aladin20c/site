@@ -302,7 +302,6 @@ customElements.define('social-list', SocialList);
 export class PortfolioSection extends LitElement {
   static properties = {
     id: { type: String },
-    title: { type: String }
   };
 
   static styles = css`
@@ -364,10 +363,11 @@ export class PortfolioSection extends LitElement {
   `;
 
   render() {
+    const title = this.id ? this.id.charAt(0).toUpperCase() + this.id.slice(1) : '';
     return html`
       <section id="${this.id}">
         <div class="section-header">
-          <h2 class="section-title">${this.title}</h2>
+          <h2 class="section-title">${title}</h2>
         </div>
         <div class="section-content">
           <slot></slot>
@@ -611,8 +611,6 @@ export class ExperienceCard extends LitElement {
 customElements.define('experience-card', ExperienceCard);
 
 
-
-
 export class ExperienceList extends LitElement {
 
   // We define the data directly in the class
@@ -657,3 +655,347 @@ export class ExperienceList extends LitElement {
   }
 }
 customElements.define('experience-list', ExperienceList);
+
+
+
+
+
+const educationData = [
+  {
+    date: "2018 — 2022",
+    degree: "B.Sc. in Computer Science",
+    institution: "University Name",
+    institutionLink: "https://university.edu",
+    description: "Focus on software engineering and distributed systems. Thesis on cloud-native applications.",
+    courses: ["Data Structures", "Algorithms", "Distributed Systems", "Machine Learning", "Cloud Computing"],
+    grade: "First Class Honours"
+  },
+  {
+    date: "2023 — 2024",
+    degree: "M.Sc. in Artificial Intelligence",
+    institution: "Graduate University",
+    institutionLink: "https://grad.edu", 
+    description: "Specialization in deep learning and natural language processing.",
+    courses: ["Neural Networks", "NLP", "Computer Vision", "Reinforcement Learning"],
+    grade: "Distinction"
+  }
+];
+
+
+/**
+ * Education Card
+ */
+
+export class EducationCard extends LitElement {
+  static properties = {
+    date: { type: String },
+    degree: { type: String },
+    institution: { type: String },
+    institutionLink: { type: String },
+    description: { type: String },
+    courses: { type: Array },
+    grade: { type: String }
+  };
+
+  static styles = css`
+    :host { 
+      cursor: pointer;
+    }
+
+    li {
+      position: relative;
+      padding: 0;
+      margin-bottom: 48px;
+    }
+      
+    /* The Highlight Box Behind the Card */
+    .hover-background {
+      position: absolute;
+      inset: -16px -16px -16px -16px;
+      z-index: 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .hover-background {
+        display: block;
+        inset: -24px -24px -24px -24px;
+      }
+    }
+
+    /* When hovering the LI, show the background box */
+    li:hover .hover-background {
+      background-color: rgba(30, 41, 59, 0.5);
+      box-shadow: inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
+      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
+    }
+    
+    .education-grid {
+      display: grid;
+      padding-bottom: 4px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    @media (min-width: 640px) {
+      .education-grid {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 32px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .education-grid {
+        gap: 16px;
+      }
+    }
+
+    .education-date {
+      padding: 0;
+      z-index: 10;
+      margin-bottom: 8px;
+      margin-top: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-500);
+    }
+
+    @media (min-width: 640px) {
+      .education-date {
+        grid-column: span 2 / span 2;
+      }
+    }
+
+    .education-content {
+      padding: 0;
+      margin: 0;
+      z-index: 10;
+    }
+
+    @media (min-width: 640px) {
+      .education-content {
+        grid-column: span 6 / span 6;
+      }
+    }
+
+    .education-header {
+      margin: 0;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    .education-degree {
+      color: var(--slate-200);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .education-institution {
+      display: inline-flex;
+      align-items: baseline;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--slate-400);
+      text-decoration: none;
+      font-size: 0.95rem;
+      margin-left: 4px;
+    }
+
+    li:hover .education-institution,
+    li:focus-visible .education-institution {
+      color: var(--teal-300);
+    }
+
+    .education-institution svg {
+      display: inline-block;
+      height: 14px;
+      width: 14px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      margin-left: 4px;
+      transform: translateY(1px);
+    }
+
+    li:hover svg,
+    li:focus-visible svg {
+      transform: translate(-1px, -1px);
+    }
+
+    .education-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--slate-500);
+    }
+
+    .education-grade {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .education-grade::before {
+      content: "•";
+      margin-right: 4px;
+      color: var(--slate-600);
+    }
+
+    .education-description {
+      margin-top: 10px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--slate-400);
+    }
+
+    .courses-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      gap: 4px;
+    }
+
+    .course-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 400;
+      border-radius: 4px;
+      background-color: rgba(45, 212, 191, 0.1);
+      color: var(--teal-300);
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease;
+    }
+
+    li:hover .course-tag {
+      background-color: rgba(45, 212, 191, 0.15);
+    }
+
+    /* Decorative element for education */
+    .education-content::before {
+      content: "🎓";
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.5rem;
+      opacity: 0.1;
+      transform: rotate(-5deg);
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    li:hover .education-content::before {
+      opacity: 0.2;
+    }
+  `;
+
+  handleHostClick(event) {
+    if (!event.target.closest('a')) {
+      window.open(this.institutionLink, '_blank', 'noopener,noreferrer');
+    }
+  }
+
+  render() {
+    return html`
+    <li @click=${this.handleHostClick}>
+      <div class="hover-background"></div>
+      <div class="education-grid">
+        <div class="education-date">${this.date}</div>
+        
+        <div class="education-content">
+          <div class="education-header">
+            <span class="education-degree">${this.degree}</span>
+            <a href="${this.institutionLink}" class="education-institution" target="_blank" rel="noopener noreferrer">
+              ${this.institution}
+              ${icons["arrow"]}
+            </a>
+          </div>
+          
+          ${this.grade ? html`
+            <div class="education-meta">
+              <span class="education-grade">${this.grade}</span>
+            </div>
+          ` : ''}
+          
+          ${this.description ? html`
+            <div class="education-description">
+              ${this.description}
+            </div>
+          ` : ''}
+          
+          ${this.courses && this.courses.length ? html`
+            <div class="courses-list">
+              ${this.courses.map(course => html`
+                <span class="course-tag">${course}</span>
+              `)}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    </li>  
+    `;
+  }
+}
+customElements.define('education-card', EducationCard);
+
+
+export class EducationList extends LitElement {
+  constructor() {
+    super();
+  }
+
+  static styles = css`
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* Group hover effect - same as experience for consistency */
+    ul:hover education-card {
+      opacity: 0.5;
+    }
+    
+    ul education-card:hover {
+      opacity: 1 !important;
+    }
+  `;
+
+  render() {
+    return html`
+      <ul>
+        ${educationData.map(edu => html`
+          <education-card 
+              .date="${edu.date}"
+              .degree="${edu.degree}"
+              .institution="${edu.institution}"
+              .institutionLink="${edu.institutionLink}"
+              .description="${edu.description}"
+              .courses="${edu.courses}"
+              .grade="${edu.grade}">
+          </education-card>
+        `)}
+      </ul>
+    `;
+  }
+}
+customElements.define('education-list', EducationList);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
