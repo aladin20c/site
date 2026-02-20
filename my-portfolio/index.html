@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>my-portfolio</title>
+    <link rel="stylesheet" href="./src/index.css" />
+    <script type="module" src="/src/my-element.js"></script>
+  </head>
+
+  <body>
+  <div id="main-container">
+
+    <header>
+
+      <div>
+        <name-header name="Alaeddine Cheniour" url="/"></name-header>
+        <h2 class="subtitle"> Software Engineering student</h2>
+        <p class="intro-paragraph">
+          I build intelligent, immersive systems at the intersection of AI, Computer Vision and computer Graphics.
+        </p>
+        <nav-menu></nav-menu>
+      </div>
+
+      <div class="social-links">
+        <social-list></social-list>
+      </div>
+
+    </header>
+
+
+
+    <main id="main-content">
+
+      <portfolio-section id="about">
+        <p class="mb-4">
+          I'm Alaeddine, a final-year software engineering student at
+          <a href="https://www.polytech.universite-paris-saclay.fr/" target="_blank" rel="noopener noreferrer" class="hoverEl">Polytech Paris-Saclay</a>
+          and a Master 2 student in
+          <span class="focusEl">Human–Computer Interaction, Computer Graphics & Design</span>
+          at
+          <a href="https://www.ip-paris.fr/" target="_blank" rel="noopener noreferrer" class="hoverEl">Institut Polytechnique de Paris</a>.
+        </p>
+
+        <p class="mb-4">
+          I'm passionate about everything that lives at the intersection of technology and creativity:
+          <strong>software engineering</strong>, <strong>machine learning</strong>, <strong>computer graphics</strong>,
+          <strong>virtual & augmented reality</strong>, and <strong>computer vision</strong>.
+          I love building interactive systems, experimenting with rendering techniques, and designing digital experiences that feel intuitive and visually engaging.
+        </p>
+      </portfolio-section>
+
+
+      <portfolio-section id="experience">
+        <experience-list></experience-list>
+      </portfolio-section>
+
+
+      <footer>
+        <p>
+          Built with using <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">Next.js</a> and <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer">Tailwind CSS</a>, deployed with Vercel.
+        </p>
+        <p class="mt-4">
+          Inspired by Brittany Chiang's portfolio.
+        </p>
+      </footer>
+    </main>
+  </div>
+
+
+
+
+
+  <script>
+    // Simple scroll to top functionality
+    document.querySelector('.tardis-btn').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Simple navigation highlighting
+    document.addEventListener('DOMContentLoaded', function() {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll('section');
+
+      function highlightNav() {
+        let index = sections.length;
+
+        while(--index && window.scrollY + 50 < sections[index].offsetTop) {}
+
+        navLinks.forEach((link) => link.classList.remove('active'));
+        navLinks[index].classList.add('active');
+      }
+
+      highlightNav();
+      window.addEventListener('scroll', highlightNav);
+    });
+  </script>
+  </body>
+</html>
