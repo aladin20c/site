@@ -6,67 +6,109 @@ const sections = [
     { id: '#projects', label: 'Projects' }
 ];
 
+
 const socials = [
     { name: 'github', label: 'GitHub', url: 'https://github.com/aladin20c' },
     { name: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/aladin-cheniour/' },
+    { name: 'goodreads', label: 'Goodreads', url: 'https://www.goodreads.com/user/show/101887216-aladin' },
     //{ name: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/bchiang7/' },
-    { name: 'goodreads', label: 'Goodreads', url: 'https://www.goodreads.com/user/show/101887216-aladin' }
 ];
 
 const experiences = [
     {
-        date: "2023 - Present",
-        role: "Creative Developer",
-        company: "Studio AI",
-        companyLink: "https://example.com",
-        description: "Designing and building immersive WebGL experiences and integrating computer vision models into real-time browser applications.",
-        techs: ["Three.js", "WebGL", "TensorFlow.js", "Lit"]
+        date: "2025 — Present",
+        role: "Medical HCI Research Intern",
+        company: "Dassault Systèmes",
+        companyLink: "https://www.3ds.com",
+        description: "Researching innovative HCI tools and 2D/3D visualization methods for medical viewers to enhance diagnostic accuracy. Developing manipulation tools for medical data and exploring remote rendering integration to optimize slow convergence algorithms.",
+        techs: ["Medical Visualization", "HCI Research", "Remote Rendering", "C++", "Three.js"]
     },
     {
-        date: "2021 - 2023",
-        role: "Software Engineering Intern",
-        company: "TechNova",
-        companyLink: "https://example.com",
-        description: "Assisted in migrating legacy dashboard interfaces to modern Web Components. Optimized build pipelines to reduce deployment times.",
-        techs: ["JavaScript", "HTML/CSS", "Webpack", "Python"]
+        date: "April — Aug 2025",
+        role: "Full-Stack Software Engineer",
+        company: "Ouidou",
+        companyLink: "https://www.ouidou.fr",
+        description: "Collaborated with multi-disciplinary teams to maintain and implement major features. Optimized application performance by resolving bottlenecks in backend queries and frontend rendering.",
+        techs: ["Node.js", "TypeScript", "React", "PostgreSQL"]
     },
     {
-        date: "2020 - 2021",
-        role: "Freelance Web Developer",
-        company: "Self-Employed",
-        companyLink: "#",
-        description: "Developed responsive, accessible portfolio sites and e-commerce platforms for local artists and small businesses.",
-        techs: ["React", "Tailwind CSS", "Figma"]
+        date: "Sept 2024 — June 2025",
+        role: "Academic Tutor",
+        company: "Polytech Paris Saclay",
+        companyLink: "https://www.polytech.universite-paris-saclay.fr",
+        description: "Led tutoring sessions for first and second-year engineering students in Computer Science, Mathematics, and Physics.",
+        techs: ["Algorithms", "Discrete Math", "C++", "Physics"]
+    },
+    {
+        date: "June — Aug 2024",
+        role: "Software Engineer Intern",
+        company: "SMA BTP",
+        companyLink: "https://www.smabtp.fr",
+        description: "Automated file submission and testing workflows by developing Selenium scripts. Interfaced with developers to ensure coherent UX across internal tools.",
+        techs: ["Python", "Selenium", "Automation", "QA Testing"]
+    },
+    {
+        date: "July — Aug 2022",
+        role: "Software Engineer Intern",
+        company: "SEABEX",
+        companyLink: "https://seabex.com",
+        description: "Developed and maintained Python programs for processing and analyzing satellite-collected agricultural data.",
+        techs: ["Python", "Data Analysis", "GIS Data"]
     }
 ];
 
 
 const education = [
     {
-        period: "2019 — 2022",
+        period: "2025 — 2026",
         degree: "Master of Science",
-        field: "Human-Computer Interaction",
-        institution: "Stanford University",
-        institutionLink: "https://stanford.edu",
-        grade: "Distinction · 4.0 GPA",
-        thesis: "Designing Adaptive Interfaces for Cognitive Load Management",
+        field: "Human Computer Interaction & Design",
+        institution: "Institut Polytechnique de Paris",
+        institutionLink: "https://www.ip-paris.fr",
+        grade: "Palaiseau, France",
+        // Added your specific research focus here
+        thesis: "Innovative Visualization and Manipulation Tools for Medical Data Efficiency",
         achievements: [
-            "Published research on gesture-based interactions in CHI 2022",
-            "Teaching assistant for Advanced UX Design course",
-            "Developed prototype for AR navigation system"
+            "Research focus: Enhancing practitioner efficiency via advanced 2D/3D medical viewers",
+            "Exploring remote rendering for high-fidelity convergence algorithms",
+            "Courses: Computer Vision, Deep Learning, Virtual Humans"
         ]
     },
     {
-        period: "2015 — 2019",
-        degree: "Bachelor of Fine Arts",
-        field: "Interactive Design",
-        institution: "Rhode Island School of Design",
-        institutionLink: "https://risd.edu",
-        grade: "Honors · Magna Cum Laude",
+        period: "2023 — 2026",
+        degree: "Engineering Degree",
+        field: "Mathematics & Computer Science",
+        institution: "Polytech Paris Saclay",
+        institutionLink: "https://www.polytech.universite-paris-saclay.fr",
+        grade: "Orsay, France",
         achievements: [
-            "Senior thesis awarded 'Most Innovative Design'",
-            "President of Design Club",
-            "Internship at IDEO"
+            "Advanced Database Management & Computer Networks",
+            "Machine Learning and Computer Architecture",
+            "Web Development and Advanced OOP"
+        ]
+    },
+    {
+        period: "July — Aug 2023",
+        degree: "Summer School",
+        field: "Game Design & Development",
+        institution: "Turku University",
+        institutionLink: "https://www.utu.fi/en",
+        grade: "Turku, Finland",
+        achievements: [
+            "Intensive program in Game Design principles",
+            "Game development using the Unity engine"
+        ]
+    },
+    {
+        period: "2021 — 2023",
+        degree: "Bachelor of Science (L1-L2)",
+        field: "Mathematics & Computer Science",
+        institution: "University of Paris City",
+        institutionLink: "https://u-paris.fr",
+        grade: "Paris, France",
+        achievements: [
+            "Foundational courses in Mathematics and Computational Theory",
+            "Transitioned to Polytech Paris Saclay for engineering cycle"
         ]
     }
 ];
@@ -76,27 +118,24 @@ const education = [
 // projects.js
 const projects = [
     {
-        title: "Portfolio Website",
-        description: "A modern portfolio website built with Lit components and vanilla CSS. Features responsive design, dark mode, and interactive UI elements.",
-        techs: ["Lit", "JavaScript", "CSS", "HTML"],
-        image: "/images/portfolio.jpg",  // Optional: path to image
-        githubLink: "https://github.com/yourusername/portfolio",  // Optional
-        demoLink: "https://yourportfolio.com"  // Optional
+        title: "Cursor-Tracking HeatMap",
+        description: "Chrome extension capturing user cursor behavior during live sessions to visualize interactions via heatmaps and detailed user paths for UX optimization.",
+        techs: ["JavaScript", "Chrome API", "Data Visualization"],
+        //image
+        //demolink
+        githubLink: "https://github.com/aladin20c"
     },
     {
-        title: "Weather Dashboard",
-        description: "Real-time weather application that displays current conditions and 5-day forecast for any city. Uses OpenWeatherMap API.",
-        techs: ["JavaScript", "API Integration", "CSS Grid"],
-        // No image - will show placeholder with first letter
-        githubLink: "https://github.com/yourusername/weather-app",
-        demoLink: "https://weather-demo.netlify.app"
+        title: "Chess Game Reconstruction",
+        description: "Computer vision system that identifies piece positions on a physical chessboard from a photo to reconstruct the digital game state.",
+        techs: ["Python", "OpenCV", "Computer Vision"],
+        githubLink: "https://github.com/aladin20c"
     },
     {
-        title: "Command Line Tool",
-        description: "A developer productivity tool that automates common Git workflows and project setup tasks.",
-        techs: ["Node.js", "TypeScript", "Commander.js", "Jest"],
-        // No image, no demo - just GitHub
-        githubLink: "https://github.com/yourusername/cli-tool"
+        title: "Carbon Footprint Calculator",
+        description: "Mobile application for Viveris to calculate environmental impact, featuring a robust backend and cross-platform mobile UI.",
+        techs: ["Spring Boot", "React Native", "Java"],
+        githubLink: "https://github.com/aladin20c"
     }
 ];
 

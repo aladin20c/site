@@ -54,10 +54,10 @@
       </portfolio-section>
 
 
-      
       <portfolio-section id="education">
         <education-list></education-list>
       </portfolio-section>
+
 
       <portfolio-section id="projects">
         <project-list></project-list>
@@ -66,45 +66,46 @@
 
       <footer>
         <p>
-          Built with using <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">Next.js</a> and <a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer">Tailwind CSS</a>, deployed with Vercel.
+          Designed in <a href="https://figma.com" target="_blank" rel="noopener noreferrer">Figma</a>,
+          built using <a href="https://lit.dev" target="_blank" rel="noopener noreferrer">Lit</a> and
+          CSS, deployed on
+          <a href="https://pages.github.com" target="_blank" rel="noopener noreferrer">GitHub Pages</a>.
         </p>
         <p class="mt-4">
-          Inspired by Brittany Chiang's portfolio.
+          Inspired by Brittany Chiang's design.
         </p>
       </footer>
+
+
     </main>
   </div>
 
 
 
-
-
   <script>
-    // Simple scroll to top functionality
-    document.querySelector('.tardis-btn').addEventListener('click', function() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    const navMenu = document.querySelector('nav-menu');
+    const sections = document.querySelectorAll('portfolio-section');
+
+    const observerOptions = {
+      rootMargin: '-30% 0px -60% 0px', // Adjust based on when you want the highlight to swap
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Update the property on your Lit component directly
+          navMenu.activeSection = `#${entry.target.id}`;
+
+          // Optional: Update URL without jumping
+          history.replaceState(null, null, `#${entry.target.id}`);
+        }
       });
-    });
+    }, observerOptions);
 
-    // Simple navigation highlighting
-    document.addEventListener('DOMContentLoaded', function() {
-      const navLinks = document.querySelectorAll('.nav-link');
-      const sections = document.querySelectorAll('section');
-
-      function highlightNav() {
-        let index = sections.length;
-
-        while(--index && window.scrollY + 50 < sections[index].offsetTop) {}
-
-        navLinks.forEach((link) => link.classList.remove('active'));
-        navLinks[index].classList.add('active');
-      }
-
-      highlightNav();
-      window.addEventListener('scroll', highlightNav);
-    });
+    sections.forEach(section => observer.observe(section));
   </script>
+
+
   </body>
 </html>

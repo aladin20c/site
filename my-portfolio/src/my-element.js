@@ -356,11 +356,12 @@ export class PortfolioSection extends LitElement {
   static styles = css`
     :host {
       display: block;
+      scroll-margin-top: 64px;
+      scroll-behavior: smooth;
     }
 
     section {
       margin-bottom: 64px;
-      scroll-margin-top: 64px;
     }
 
     @media (min-width: 768px) {
@@ -372,7 +373,6 @@ export class PortfolioSection extends LitElement {
     @media (min-width: 1024px) {
       section {
         margin-bottom: 144px;
-        scroll-margin-top: 96px;
       }
     }
 
@@ -799,7 +799,7 @@ export class EducationCard extends LitElement {
       font-size: 0.9rem;
       font-style: italic;
       color: var(--slate-300);
-      border-left: 3px solid var(--teal-500);
+      border-left: 3px solid var(--teal-400);
       position: relative;
     }
 
@@ -1032,29 +1032,6 @@ export class EducationList extends LitElement {
   }
 }
 customElements.define('education-list', EducationList);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1404,3 +1381,6 @@ export class ProjectList extends LitElement {
   }
 }
 customElements.define('project-list', ProjectList);
+
+
+
