@@ -1,47 +1,6 @@
 import { LitElement, css, html } from 'lit'
 import { icons } from './icons.js';
-
-
-const sections = [
-  { id: '#about', label: 'About' },
-  { id: '#experience', label: 'Experience' },
-  { id: '#education', label: 'Education' },
-  { id: '#projects', label: 'Projects' }
-];
-
-const socials = [
-  { name: 'github', label: 'GitHub', url: 'https://github.com/aladin20c' },
-  { name: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/aladin-cheniour/' },
-  //{ name: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/bchiang7/' },
-  { name: 'goodreads', label: 'Goodreads', url: 'https://www.goodreads.com/user/show/101887216-aladin' }
-];
-
-const experiences = [
-  {
-    date: "2023 - Present",
-    role: "Creative Developer",
-    company: "Studio AI",
-    companyLink: "https://example.com",
-    description: "Designing and building immersive WebGL experiences and integrating computer vision models into real-time browser applications.",
-    techs: ["Three.js", "WebGL", "TensorFlow.js", "Lit"]
-  },
-  {
-    date: "2021 - 2023",
-    role: "Software Engineering Intern",
-    company: "TechNova",
-    companyLink: "https://example.com",
-    description: "Assisted in migrating legacy dashboard interfaces to modern Web Components. Optimized build pipelines to reduce deployment times.",
-    techs: ["JavaScript", "HTML/CSS", "Webpack", "Python"]
-  },
-  {
-    date: "2020 - 2021",
-    role: "Freelance Web Developer",
-    company: "Self-Employed",
-    companyLink: "#",
-    description: "Developed responsive, accessible portfolio sites and e-commerce platforms for local artists and small businesses.",
-    techs: ["React", "Tailwind CSS", "Figma"]
-  }
-];
+import {sections,socials,experiences,education,projects} from './data.js'
 
 /**
  * THE Main title Eleemnt.
@@ -211,13 +170,6 @@ export class NavMenu extends LitElement {
 customElements.define('nav-menu', NavMenu);
 
 
-
-
-
-
-
-
-
 /**
  * Social Link Item
  */
@@ -243,7 +195,6 @@ export class SocialLink extends LitElement {
   `;
 
   render() {
-    console.log(icons[this.iconName])
     return html`
       <a class="social-link" href="${this.href}" aria-label="${this.label}">
         ${icons[this.iconName]}
@@ -292,6 +243,104 @@ export class SocialList extends LitElement {
 customElements.define('social-list', SocialList);
 
 
+/**
+ * a conponenet for <a? tags 
+ */
+export class LinkItem extends LitElement {
+  static properties = {
+    text: { type: String },
+    link: { type: String },
+    svg: { type: Boolean },
+    dashedBorder: {type: Boolean},
+    active: { type: Boolean, reflect: true },
+  }
+
+  static styles = css`
+    :host {
+      display: inline-block;
+    }
+    
+    a {
+      display: inline-flex;
+      align-items: center;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--slate-200);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+    }
+
+    a.with-border{
+      border-bottom: 1px dashed rgba(148, 163, 184, 0.3);
+    }
+
+    :host([active]) a,
+    a:hover,
+    a:focus-visible {
+      color: var(--teal-300);
+      border-bottom-color: var(--teal-400);
+    }
+
+    :host([active]) a.active.with-border,
+    a.active.with-border:hover,
+    a.active.with-border:focus-visible {
+      border-bottom-color: var(--teal-400);
+    }
+
+    /* Active state styling */
+    a.active {
+      color: var(--teal-300);
+    }
+
+    a.active.with-border{
+      border-bottom-color: var(--teal-400);
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    svg {
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      margin-left: 6px;
+      transform: translateY(0);
+    }
+
+    :host([active]) a svg,
+    a:hover svg,
+    a:focus-visible svg, 
+    a.active svg {
+      transform: translate(2px, -1px);
+    }
+  `;
+
+  constructor() {
+    super();
+    this.svg = false;
+    this.active = false;
+    this.dashedBorder = false;
+  }
+
+  render() {
+    return html`
+      <a 
+        href="${this.link}" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="${this.active ? 'active' : ''} ${this.dashedBorder ? 'with-border' : ''}"
+      >
+        <span>${this.text}</span>
+        ${this.svg ? html`${icons["arrow"]}` : ''}
+      </a>
+    `;
+  }
+}
+customElements.define('link-item', LinkItem);
 
 
 
@@ -381,7 +430,6 @@ export class PortfolioSection extends LitElement {
 customElements.define('portfolio-section', PortfolioSection);
 
 
-
 /**
  * Tech Tag
  */
@@ -413,13 +461,9 @@ export class TechTag extends LitElement {
 customElements.define('tech-tag', TechTag);
 
 
-
-
-
 /**
  * Experience Card
  */
-
 export class ExperienceCard extends LitElement {
   static properties = {
     date: { type: String },
@@ -427,43 +471,22 @@ export class ExperienceCard extends LitElement {
     company: { type: String },
     companyLink: { type: String },
     description: { type: String },
-    techs: { type: Array }
+    techs: { type: Array },
+    isHovered: { type: Boolean }
   };
+
 
   static styles = css`
     :host { 
       cursor: pointer;
     }
 
-    li {
+    .education-card {
       position: relative;
       padding: 0;
       margin-bottom: 48px;
     }
-      
-    /* 3. The Highlight Box Behind the Card */
-    .hover-background {
-      position: absolute;
-      inset: -16px -16px -16px -16px;
-      z-index: 0;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      display: none;
-    }
-
-    @media (min-width: 1024px) {
-      .hover-background {
-        display: block;
-        inset: -24px -24px -24px -24px;
-      }
-    }
-
-    /* When hovering the LI, show the background box */
-    li:hover .hover-background {
-      background-color: rgba(30, 41, 59, 0.5); /* Slate-800 with opacity */
-      box-shadow: inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
-      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
-    }
+    
     
     .experience-grid {
       display: grid;
@@ -523,41 +546,6 @@ export class ExperienceCard extends LitElement {
       color: var(--slate-200);
     }
 
-    .experience-link {
-      display: inline-flex;
-      align-items: baseline;
-      font-weight: 500;
-      line-height: 1.5;
-      color: var(--slate-200);
-      text-decoration: none;
-      font-size: 1rem;
-    }
-
-
-    li:hover .experience-link,
-    li:focus-visible .experience-link {
-      color: var(--teal-300);
-    }
-
-    .experience-company {
-      display: inline-block;
-    }
-
-    .experience-link svg {
-      display: inline-block;
-      height: 16px;
-      width: 16px;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      margin-left: 4px;
-      transform: translateY(1px);
-    }
-
-    li:hover svg,
-    li:focus-visible svg {
-      transform: translate(-1px, -1px);
-    }
-
     .experience-description {
       margin-top: 8px;
       font-size: 0.875rem;
@@ -569,9 +557,6 @@ export class ExperienceCard extends LitElement {
       flex-wrap: wrap;
       margin-top: 8px;
     }
-
-    
-    
   `;
 
   handleHostClick(event) {
@@ -580,19 +565,34 @@ export class ExperienceCard extends LitElement {
     }
   }
 
+  constructor() {
+    super();
+    this.isHovered = false;
+  }
+
+  handleMouseEnter() {
+    this.isHovered = true;
+  }
+
+  handleMouseLeave() {
+    this.isHovered = false;
+  }
+
+
   render() {
     return html`
-    <li @click=${this.handleHostClick} >
+    <div class="education-card"  
+      @click=${this.handleHostClick} 
+      @mouseenter=${this.handleMouseEnter}
+      @mouseleave=${this.handleMouseLeave}
+    >
       <div class="hover-background"></div>
       <div class="experience-grid">
         <div class="experience-date">${this.date}</div>
         
         <div class="experience-content">
           <h3 class="experience-title">
-            <a href="${this.companyLink}" class="experience-link" target="_blank" rel="noopener noreferrer">
-              <span class="experience-company">${this.company}</span>
-              ${icons["arrow"]}
-            </a>
+            <link-item link="${this.companyLink}" text="${this.role} . ${this.company}" svg="true" ?active=${this.isHovered} ></link-item>
           </h3>
           
           <div class="experience-description">
@@ -604,51 +604,89 @@ export class ExperienceCard extends LitElement {
           </div>
         </div>
       </div>
-    </li>  
+    </div>  
     `;
   }
 }
 customElements.define('experience-card', ExperienceCard);
 
 
+
 export class ExperienceList extends LitElement {
 
-  // We define the data directly in the class
   constructor() {
     super();
   }
 
+
   static styles = css`
-    /* 1. Reset the list styles */
     ul {
       list-style: none;
       padding: 0;
-    }
-
-    /* 2. The Group Hover Logic */
-    /* When hovering over the UL, dim ALL LI items */
-    ul:hover experience-card {
-      opacity: 0.5;
+      margin: 0;
     }
     
-    /* But keep the specific LI being hovered at full opacity */
-    ul experience-card:hover {
+    li {
+      position: relative; 
+      padding: 0;
+      margin-bottom: 48px; 
+    }
+
+    .hover-background {
+      position: absolute;
+      inset: -16px -16px -16px -16px;
+      z-index: 0;  /* Behind the content */
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: none;
+      pointer-events: none;  /* So it doesn't interfere with hovering */
+    }
+
+    @media (min-width: 1024px) {
+      .hover-background {
+        display: block;
+        inset: -24px -24px -24px -24px;
+      }
+    }
+
+    li:hover .hover-background {
+      background-color: rgba(30, 41, 59, 0.5);
+      box-shadow: inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
+      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
+    }
+
+    experience-card {
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
+
+    ul:hover li {
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+
+    ul li:hover {
       opacity: 1 !important;
     }
   `;
+
 
   render() {
     return html`
       <ul>
         ${experiences.map(exp => html`
-          <experience-card 
-              .date="${exp.date}"
-              .role="${exp.role}"
-              .company="${exp.company}"
-              .companyLink="${exp.companyLink}"
-              .description="${exp.description}"
-              .techs="${exp.techs}">
-          </experience-card>
+          <li>
+            <div class="hover-background"></div>
+            <experience-card 
+                .date="${exp.date}"
+                .role="${exp.role}"
+                .company="${exp.company}"
+                .companyLink="${exp.companyLink}"
+                .description="${exp.description}"
+                .techs="${exp.techs}">
+            </experience-card>
+          </li>
         `)}
       </ul>
     `;
@@ -660,238 +698,182 @@ customElements.define('experience-list', ExperienceList);
 
 
 
-const educationData = [
-  {
-    date: "2018 — 2022",
-    degree: "B.Sc. in Computer Science",
-    institution: "University Name",
-    institutionLink: "https://university.edu",
-    description: "Focus on software engineering and distributed systems. Thesis on cloud-native applications.",
-    courses: ["Data Structures", "Algorithms", "Distributed Systems", "Machine Learning", "Cloud Computing"],
-    grade: "First Class Honours"
-  },
-  {
-    date: "2023 — 2024",
-    degree: "M.Sc. in Artificial Intelligence",
-    institution: "Graduate University",
-    institutionLink: "https://grad.edu", 
-    description: "Specialization in deep learning and natural language processing.",
-    courses: ["Neural Networks", "NLP", "Computer Vision", "Reinforcement Learning"],
-    grade: "Distinction"
-  }
-];
-
-
 /**
  * Education Card
  */
-
 export class EducationCard extends LitElement {
   static properties = {
-    date: { type: String },
+    period: { type: String },
     degree: { type: String },
+    field: { type: String },
     institution: { type: String },
     institutionLink: { type: String },
-    description: { type: String },
-    courses: { type: Array },
-    grade: { type: String }
+    achievements: { type: Array },
+    thesis: { type: String },
+    grade: { type: String },
+    isHovered: { type: Boolean }
   };
 
   static styles = css`
-    :host { 
+    :host {
       cursor: pointer;
     }
 
-    li {
+    .education-card {
       position: relative;
       padding: 0;
       margin-bottom: 48px;
-    }
-      
-    /* The Highlight Box Behind the Card */
-    .hover-background {
-      position: absolute;
-      inset: -16px -16px -16px -16px;
-      z-index: 0;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      display: none;
-    }
-
-    @media (min-width: 1024px) {
-      .hover-background {
-        display: block;
-        inset: -24px -24px -24px -24px;
-      }
-    }
-
-    /* When hovering the LI, show the background box */
-    li:hover .hover-background {
-      background-color: rgba(30, 41, 59, 0.5);
-      box-shadow: inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
-      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
+      list-style: none;
     }
     
-    .education-grid {
-      display: grid;
-      padding-bottom: 4px;
-      transition: all 0.3s ease;
+    .education-container {
       position: relative;
     }
 
-    @media (min-width: 640px) {
-      .education-grid {
-        grid-template-columns: repeat(8, minmax(0, 1fr));
-        gap: 32px;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .education-grid {
-        gap: 16px;
-      }
-    }
-
-    .education-date {
-      padding: 0;
-      z-index: 10;
+    /* Period on top - matching original style */
+    .education-period {
+      display: inline-block;
       margin-bottom: 8px;
-      margin-top: 4px;
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--slate-500);
-    }
-
-    @media (min-width: 640px) {
-      .education-date {
-        grid-column: span 2 / span 2;
-      }
+      z-index: 10;
+      position: relative;
     }
 
     .education-content {
       padding: 0;
       margin: 0;
       z-index: 10;
+      position: relative;
     }
 
-    @media (min-width: 640px) {
-      .education-content {
-        grid-column: span 6 / span 6;
+    .education-title {
+      margin-top: 10px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--slate-200);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+
+    .degree {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--slate-200);
+    }
+
+    .field {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--slate-400);
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .education-title {
+        gap: 4px;
+      }
+
+      .field, .institution-wrapper {
+        margin-left: 0;
       }
     }
 
-    .education-header {
-      margin: 0;
-      font-weight: 500;
-      line-height: 1.25;
+    /* Using link-item component for institution */
+    .institution-wrapper {
+      display: block;
+      margin-left: 0;
     }
 
-    .education-degree {
-      color: var(--slate-200);
-      font-size: 1rem;
-      font-weight: 500;
+    /* Thesis section */
+    .thesis {
+      margin: 16px 0;
+      padding: 12px 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--slate-300);
+      border-left: 3px solid var(--teal-500);
+      position: relative;
     }
 
-    .education-institution {
-      display: inline-flex;
-      align-items: baseline;
-      font-weight: 400;
-      line-height: 1.5;
-      color: var(--slate-400);
-      text-decoration: none;
-      font-size: 0.95rem;
-      margin-left: 4px;
+    .thesis::before {
+      content: '“';
+      font-size: 2rem;
+      position: absolute;
+      left: 8px;
+      top: -8px;
+      color: var(--teal-400);
+      opacity: 0.5;
+      font-family: serif;
     }
 
-    li:hover .education-institution,
-    li:focus-visible .education-institution {
+    .thesis::after {
+      content: '”';
+      font-size: 2rem;
+      position: absolute;
+      right: 12px;
+      bottom: -20px;
+      color: var(--teal-400);
+      opacity: 0.5;
+      font-family: serif;
+    }
+
+    .thesis strong {
       color: var(--teal-300);
+      font-weight: 500;
+      font-style: normal;
     }
 
-    .education-institution svg {
-      display: inline-block;
-      height: 14px;
-      width: 14px;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      margin-left: 4px;
-      transform: translateY(1px);
-    }
-
-    li:hover svg,
-    li:focus-visible svg {
-      transform: translate(-1px, -1px);
-    }
-
-    .education-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 6px;
-      font-size: 0.75rem;
-      color: var(--slate-500);
-    }
-
-    .education-grade {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .education-grade::before {
-      content: "•";
-      margin-right: 4px;
-      color: var(--slate-600);
-    }
-
-    .education-description {
-      margin-top: 10px;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      color: var(--slate-400);
-    }
-
-    .courses-list {
+    /* Grade styled like a tech tag */
+    .grade-list {
       display: flex;
       flex-wrap: wrap;
       margin-top: 8px;
-      gap: 4px;
     }
 
-    .course-tag {
+    .grade-tag {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 4px 12px;
       font-size: 0.7rem;
-      font-weight: 400;
-      border-radius: 4px;
-      background-color: rgba(45, 212, 191, 0.1);
+      font-weight: 500;
       color: var(--teal-300);
+      background: rgba(45, 212, 191, 0.1);
+      border-radius: 12px;
       letter-spacing: 0.01em;
-      transition: all 0.2s ease;
     }
 
-    li:hover .course-tag {
-      background-color: rgba(45, 212, 191, 0.15);
+    /* Achievements list */
+    .achievements {
+      margin-top: 8px;
+      padding: 0;
+      list-style: none;
     }
 
-    /* Decorative element for education */
-    .education-content::before {
-      content: "🎓";
-      position: absolute;
-      right: 0;
-      top: 0;
-      font-size: 1.5rem;
-      opacity: 0.1;
-      transform: rotate(-5deg);
-      transition: opacity 0.3s ease;
-      pointer-events: none;
+    .achievement-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: var(--slate-400);
+      line-height: 1.5;
     }
 
-    li:hover .education-content::before {
-      opacity: 0.2;
+    .achievement-marker {
+      display: inline-block;
+      min-width: 16px;
+      margin-right: 8px;
+      color: var(--slate-500);
+      font-size: 0.8rem;
     }
+
+    
   `;
 
   handleHostClick(event) {
@@ -900,48 +882,74 @@ export class EducationCard extends LitElement {
     }
   }
 
+  constructor() {
+    super();
+    this.isHovered = false;
+  }
+
+  handleMouseEnter() {
+    this.isHovered = true;
+  }
+
+  handleMouseLeave() {
+    this.isHovered = false;
+  }
+
   render() {
     return html`
-    <li @click=${this.handleHostClick}>
-      <div class="hover-background"></div>
-      <div class="education-grid">
-        <div class="education-date">${this.date}</div>
-        
-        <div class="education-content">
-          <div class="education-header">
-            <span class="education-degree">${this.degree}</span>
-            <a href="${this.institutionLink}" class="education-institution" target="_blank" rel="noopener noreferrer">
-              ${this.institution}
-              ${icons["arrow"]}
-            </a>
+      <div class="education-card"
+          @click=${this.handleHostClick}
+          @mouseenter=${this.handleMouseEnter}
+          @mouseleave=${this.handleMouseLeave}
+      >
+        <div class="education-container">
+          <div class="education-period">${this.period}</div>
+
+          <div class="education-content">
+            
+            <span class="institution-wrapper">
+                <link-item
+                    link="${this.institutionLink}"
+                    text="${this.institution}"
+                    svg="true"
+                    ?active=${this.isHovered}
+                    ?dashedBorder=${true}
+                ></link-item>
+              </span>
+            <h5 class="education-title">
+              <span class="degree">${this.degree}</span>
+              ${this.field ? html`<span class="field">· ${this.field}</span>` : ''}
+            </h5>
+            
+
+            ${this.grade ? html`
+              <!--<div class="grade-list"><span class="grade-tag">${this.grade}</span></div>-->
+            ` : ''}
+
+            ${this.thesis ? html`
+              <div class="thesis">
+                <strong>Thesis:</strong> ${this.thesis}
+              </div>
+            ` : ''}
+
+            ${this.achievements?.length ? html`
+              <ul class="achievements">
+                ${this.achievements.map(achievement => html`
+                  <li class="achievement-item">
+                    <span class="achievement-marker">—</span>
+                    <span>${achievement}</span>
+                  </li>
+                `)}
+              </ul>
+            ` : ''}
           </div>
-          
-          ${this.grade ? html`
-            <div class="education-meta">
-              <span class="education-grade">${this.grade}</span>
-            </div>
-          ` : ''}
-          
-          ${this.description ? html`
-            <div class="education-description">
-              ${this.description}
-            </div>
-          ` : ''}
-          
-          ${this.courses && this.courses.length ? html`
-            <div class="courses-list">
-              ${this.courses.map(course => html`
-                <span class="course-tag">${course}</span>
-              `)}
-            </div>
-          ` : ''}
         </div>
       </div>
-    </li>  
     `;
   }
 }
 customElements.define('education-card', EducationCard);
+
 
 
 export class EducationList extends LitElement {
@@ -953,14 +961,50 @@ export class EducationList extends LitElement {
     ul {
       list-style: none;
       padding: 0;
-    }
-
-    /* Group hover effect - same as experience for consistency */
-    ul:hover education-card {
-      opacity: 0.5;
+      margin: 0;
     }
     
-    ul education-card:hover {
+    li {
+      position: relative; 
+      padding: 0;
+      margin-bottom: 48px; 
+    }
+
+    .hover-background {
+      position: absolute;
+      inset: -16px -16px -16px -16px;
+      z-index: 0;  /* Behind the content */
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: none;
+      pointer-events: none;  /* So it doesn't interfere with hovering */
+    }
+
+    @media (min-width: 1024px) {
+      .hover-background {
+        display: block;
+        inset: -24px -24px -24px -24px;
+      }
+    }
+
+    li:hover .hover-background {
+      background-color: rgba(30, 41, 59, 0.5);
+      box-shadow: inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
+      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
+    }
+
+    education-card {
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
+
+    ul:hover li {
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+
+    ul li:hover {
       opacity: 1 !important;
     }
   `;
@@ -968,16 +1012,20 @@ export class EducationList extends LitElement {
   render() {
     return html`
       <ul>
-        ${educationData.map(edu => html`
-          <education-card 
-              .date="${edu.date}"
-              .degree="${edu.degree}"
-              .institution="${edu.institution}"
-              .institutionLink="${edu.institutionLink}"
-              .description="${edu.description}"
-              .courses="${edu.courses}"
-              .grade="${edu.grade}">
-          </education-card>
+        ${education.map(edu => html`
+          <li>
+            <div class="hover-background"></div>
+            <education-card
+                .period="${edu.period}"
+                .degree="${edu.degree}"
+                .field="${edu.field}"
+                .institution="${edu.institution}"
+                .institutionLink="${edu.institutionLink}"
+                .achievements="${edu.achievements}"
+                .thesis="${edu.thesis}"
+                .grade="${edu.grade}">
+            </education-card>
+          </li>
         `)}
       </ul>
     `;
@@ -999,3 +1047,360 @@ customElements.define('education-list', EducationList);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Project Card
+ */
+export class ProjectCard extends LitElement {
+  static properties = {
+    title: { type: String },
+    description: { type: String },
+    techs: { type: Array },
+    image: { type: String }, // Optional image URL
+    githubLink: { type: String }, // Optional GitHub link
+    demoLink: { type: String }, // Optional demo link
+    isHovered: { type: Boolean }
+  };
+
+  static styles = css`
+    :host {
+      cursor: pointer;
+      display: block;
+    }
+
+    .project-card {
+      position: relative;
+      padding: 0;
+      margin-bottom: 48px;
+      list-style: none;
+    }
+    
+    .project-container {
+      position: relative;
+    }
+
+    /* Grid layout for image + content */
+    .project-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .project-grid {
+        grid-template-columns: 200px 1fr; /* Fixed width for image on left */
+        gap: 24px;
+      }
+    }
+
+    /* Image/placeholder section */
+    .project-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/10; /* Rectangular ratio */
+      border-radius: 6px;
+      overflow: hidden;
+      background-color: var(--slate-800);
+      z-index: 10;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover .project-image img {
+      transform: scale(1.05);
+    }
+
+    /* Placeholder when no image */
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--slate-800) 0%, var(--slate-900) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate-500);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--slate-700);
+    }
+
+    .project-content {
+      padding: 0;
+      margin: 0;
+      z-index: 10;
+      position: relative;
+    }
+
+    .project-title {
+      margin: 0 0 8px 0;
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--slate-200);
+    }
+
+    .project-description {
+      margin-top: 8px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--slate-400);
+    }
+
+    /* Tech stack */
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      gap: 8px;
+    }
+
+    .tech-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--teal-300);
+      background: rgba(45, 212, 191, 0.1);
+      border-radius: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    /* Links section */
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .project-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: var(--slate-400);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .project-links a:hover {
+      color: var(--teal-300);
+    }
+
+    .project-links svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    .project-links a:hover svg {
+      transform: translate(2px, -2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 639px) {
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .project-image {
+        max-width: 100%;
+        margin-bottom: 8px;
+      }
+    }
+  `;
+
+  handleHostClick(event) {
+    // Don't open if clicking on a link
+    if (!event.target.closest('a')) {
+      // Default to GitHub if exists, otherwise demo
+      if (this.githubLink) {
+        window.open(this.githubLink, '_blank', 'noopener,noreferrer');
+      } else if (this.demoLink) {
+        window.open(this.demoLink, '_blank', 'noopener,noreferrer');
+      }
+    }
+  }
+
+  constructor() {
+    super();
+    this.isHovered = false;
+    this.techs = [];
+  }
+
+  handleMouseEnter() {
+    this.isHovered = true;
+  }
+
+  handleMouseLeave() {
+    this.isHovered = false;
+  }
+
+  renderImage() {
+    if (this.image) {
+      return html`<img src="${this.image}" alt="${this.title}">`;
+    } else {
+      return html`<div class="image-placeholder">${this.title.charAt(0)}</div>`;
+    }
+  }
+
+  render() {
+    return html`
+      <div class="project-card"
+          @click=${this.handleHostClick}
+          @mouseenter=${this.handleMouseEnter}
+          @mouseleave=${this.handleMouseLeave}
+      >
+        <div class="project-container">
+          <div class="project-grid">
+            <!-- Image on left -->
+            <div class="project-image">
+              ${this.renderImage()}
+            </div>
+
+            <!-- Content on right -->
+            <div class="project-content">
+              <h3 class="project-title">${this.title}</h3>
+              
+              <div class="project-description">
+                ${this.description}
+              </div>
+              
+              ${this.techs?.length ? html`
+                <div class="tech-list">
+                  ${this.techs.map(tech => html`
+                    <span class="tech-tag">${tech}</span>
+                  `)}
+                </div>
+              ` : ''}
+
+              <!-- Links section -->
+              <div class="project-links">
+                ${this.githubLink ? html`
+                  <a href="${this.githubLink}" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     @click=${(e) => e.stopPropagation()}>
+                    <span>GitHub</span>
+                    ${icons["arrow"]}
+                  </a>
+                ` : ''}
+                
+                ${this.demoLink ? html`
+                  <a href="${this.demoLink}" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     @click=${(e) => e.stopPropagation()}>
+                    <span>Live Demo</span>
+                    ${icons["arrow"]}
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+customElements.define('project-card', ProjectCard);
+
+/**
+ * Project List
+ */
+export class ProjectList extends LitElement {
+  constructor() {
+    super();
+  }
+
+  static styles = css`
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    li {
+      position: relative; 
+      padding: 0;
+      margin-bottom: 48px; 
+    }
+
+    .hover-background {
+      position: absolute;
+      inset: -16px -16px -16px -16px;
+      z-index: 0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      display: none;
+      pointer-events: none;
+    }
+
+    @media (min-width: 1024px) {
+      .hover-background {
+        display: block;
+        inset: -24px -24px -24px -24px;
+      }
+    }
+
+    li:hover .hover-background {
+      background-color: rgba(30, 41, 59, 0.5);
+      box-shadow: inset 0 1px 0 0 rgba(148, 163, 184, 0.1);
+      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04));
+    }
+
+    project-card {
+      position: relative;
+      z-index: 1;
+      display: block;
+    }
+
+    ul:hover li {
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+
+    ul li:hover {
+      opacity: 1 !important;
+    }
+  `;
+
+  render() {
+    return html`
+      <ul>
+        ${projects.map(project => html`
+          <li>
+            <div class="hover-background"></div>
+            <project-card
+                .title="${project.title}"
+                .description="${project.description}"
+                .techs="${project.techs}"
+                .image="${project.image}"
+                .githubLink="${project.githubLink}"
+                .demoLink="${project.demoLink}">
+            </project-card>
+          </li>
+        `)}
+      </ul>
+    `;
+  }
+}
+customElements.define('project-list', ProjectList);
