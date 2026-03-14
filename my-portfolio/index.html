@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>my-portfolio</title>
     <link rel="stylesheet" href="./src/index.css" />
     <script type="module" src="/src/my-element.js"></script>
+    <link rel="icon" type="image/png" href="./public/assets/logo.png">
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <name-header name="Alaeddine Cheniour" url="/"></name-header>
         <h2 class="subtitle"> Software Engineer | 3D Graphics & HCI</h2>
         <p class="intro-paragraph">
-          Crafting optimized 3D graphics, intelligent computer vision systems, and immersive VR tools for the modern web.
+          I build interactive 3D graphics and human-centered software.
         </p>
         <nav-menu></nav-menu>
       </div>
@@ -35,22 +35,40 @@
 
       <portfolio-section id="about">
         <p class="mb-4">
-          I'm Alaeddine, a final-year software engineering student at
-          <link-item link="https://www.polytech.universite-paris-saclay.fr/" text="Polytech Paris-Saclay"></link-item>
-          and a Master 2 student in
-          <span class="focusEl">Human–Computer Interaction, Computer Graphics & Design</span>
-          at
-          <link-item link="https://www.ip-paris.fr/" text="Institut Polytechnique de Paris"></link-item>.
+          I’m a software engineer and HCI researcher specializing in the intersection of
+          high-performance graphics and human-centered design. I enjoy building powerful systems that remain easy to use,
+          bridging the gap between complex architecture and intuitive design.
         </p>
 
         <p class="mb-4">
-          I'm passionate about the space where technology meets creativity. My expertise spans <strong>software engineering</strong>, <strong>machine learning</strong>, and <strong>computer graphics</strong>, with a strong focus on <strong>VR/AR</strong> and <strong>computer vision</strong>. Whether I'm optimizing 3D architectures for the web or designing intuitive interfaces, I love building interactive systems that push the boundaries of performance and visual engagement.
+          I am finishing my dual degree: an Engineering degree in Mathematics and Computer Science from
+          <link-item link="https://www.polytech.universite-paris-saclay.fr/" text="Polytech Paris-Saclay"></link-item>
+          and a Master’s in
+          <span class="focusEl">Human–Computer Interaction, Computer Graphics & Design</span>
+          from
+          <link-item link="https://www.ip-paris.fr/" text="Institut Polytechnique de Paris"></link-item>.
+          These experiences have shaped my approach to software, combining engineering with a deep understanding of how humans interact with digital environments.
         </p>
+
+        <p class="mb-4">
+          Currently, I’m a Research Intern at
+          <link-item link="https://www.3ds.com/fr/science/meditwin" text="Dassault Systèmes"></link-item>
+          Human Virtual Twin research team, where I focus on medical visualization. My work involves identifying innovative
+          2D and 3D tools to manipulate medical data, as well as exploring remote
+          rendering and optimisation techniques.
+        </p>
+
+
+        <p class="mb-4">
+          Outside of the lab, I’m usually capturing the world through street photography or getting lost in a good book.
+        </p>
+
       </portfolio-section>
 
 
       <portfolio-section id="experience">
         <experience-list></experience-list>
+        <link-item link="/assets/resume.pdf" text="View Full Résumé" svg="true"></link-item>
       </portfolio-section>
 
 
@@ -104,6 +122,13 @@
     }, observerOptions);
 
     sections.forEach(section => observer.observe(section));
+
+
+
+    window.addEventListener('mousemove', (e) => {
+      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    });
   </script>
 
 

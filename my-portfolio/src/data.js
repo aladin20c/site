@@ -19,9 +19,9 @@ const experiences = [
         date: "2025 — Present",
         role: "Medical HCI Research Intern",
         company: "Dassault Systèmes",
-        companyLink: "https://www.3ds.com",
-        description: "Researching innovative HCI tools and 2D/3D visualization methods for medical viewers to enhance diagnostic accuracy. Developing manipulation tools for medical data and exploring remote rendering integration to optimize slow convergence algorithms.",
-        techs: ["Medical Visualization", "HCI Research", "Remote Rendering", "C++", "Three.js"]
+        companyLink: "https://www.3ds.com/science/meditwin",
+        description: "Researching innovative HCI tools and 2D/3D visualization methods for medical viewers for surgical planning. Developing manipulation tools for medical data and exploring remote rendering and optimisation techniques for volumetric rendering.",
+        techs: ["DICOM", "FHIR", "VTK", "WebGL", "Lit"]
     },
     {
         date: "April — Aug 2025",
@@ -29,15 +29,15 @@ const experiences = [
         company: "Ouidou",
         companyLink: "https://www.ouidou.fr",
         description: "Collaborated with multi-disciplinary teams to maintain and implement major features. Optimized application performance by resolving bottlenecks in backend queries and frontend rendering.",
-        techs: ["Node.js", "TypeScript", "React", "PostgreSQL"]
+        techs: ["Node.js","Angular", "Spring Boot", "React", "PostgreSQL"]
     },
     {
         date: "Sept 2024 — June 2025",
         role: "Academic Tutor",
         company: "Polytech Paris Saclay",
         companyLink: "https://www.polytech.universite-paris-saclay.fr",
-        description: "Led tutoring sessions for first and second-year engineering students in Computer Science, Mathematics, and Physics.",
-        techs: ["Algorithms", "Discrete Math", "C++", "Physics"]
+        description: "Led tutoring sessions at polytech for first and second-year engineering students in Computer Science, Mathematics, and Physics.",
+        techs: ["Algorithms", "Math", "C++", "Physics"]
     },
     {
         date: "June — Aug 2024",
@@ -45,7 +45,7 @@ const experiences = [
         company: "SMA BTP",
         companyLink: "https://www.smabtp.fr",
         description: "Automated file submission and testing workflows by developing Selenium scripts. Interfaced with developers to ensure coherent UX across internal tools.",
-        techs: ["Python", "Selenium", "Automation", "QA Testing"]
+        techs: ["Selenium", "Angular", "Spring Boot"]
     },
     {
         date: "July — Aug 2022",
@@ -53,7 +53,7 @@ const experiences = [
         company: "SEABEX",
         companyLink: "https://seabex.com",
         description: "Developed and maintained Python programs for processing and analyzing satellite-collected agricultural data.",
-        techs: ["Python", "Data Analysis", "GIS Data"]
+        techs: ["Python", "PyTorch", "OpenCV"]
     }
 ];
 
@@ -62,12 +62,12 @@ const education = [
     {
         period: "2025 — 2026",
         degree: "Master of Science",
-        field: "Human Computer Interaction & Design",
+        field: "Interaction, Computer Graphics & Design",
         institution: "Institut Polytechnique de Paris",
         institutionLink: "https://www.ip-paris.fr",
         grade: "Palaiseau, France",
         // Added your specific research focus here
-        thesis: "Innovative Visualization and Manipulation Tools for Medical Data Efficiency",
+        thesis: "Innovative Visualization and Manipulation Tools and 3D rendering techniques for Medical Data",
         achievements: [
             "Research focus: Enhancing practitioner efficiency via advanced 2D/3D medical viewers",
             "Exploring remote rendering for high-fidelity convergence algorithms",
@@ -82,9 +82,8 @@ const education = [
         institutionLink: "https://www.polytech.universite-paris-saclay.fr",
         grade: "Orsay, France",
         achievements: [
-            "Advanced Database Management & Computer Networks",
-            "Machine Learning and Computer Architecture",
-            "Web Development and Advanced OOP"
+            "Courses Included : Advanced Database Management, Computer Networks, Machine Learning, Computer Architecture and Web Development",
+            "Won the Polytech Rendering Competition Award 2024"
         ]
     },
     {
@@ -108,7 +107,7 @@ const education = [
         grade: "Paris, France",
         achievements: [
             "Foundational courses in Mathematics and Computational Theory",
-            "Transitioned to Polytech Paris Saclay for engineering cycle"
+            "Courses included : Linear Algebra, Discrete Math, Topology, Logic, OOP, Functional Programming, etc."
         ]
     }
 ];
@@ -121,21 +120,22 @@ const projects = [
         title: "Cursor-Tracking HeatMap",
         description: "Chrome extension capturing user cursor behavior during live sessions to visualize interactions via heatmaps and detailed user paths for UX optimization.",
         techs: ["JavaScript", "Chrome API", "Data Visualization"],
-        //image
-        //demolink
-        githubLink: "https://github.com/aladin20c"
+        image: "./public/assets/img1.png",
+        githubLink: "https://github.com/aladin20c/cursor-tracker-quant-ux"
     },
     {
-        title: "Chess Game Reconstruction",
+        title: "Computer Vision Pipeline For Chess",
         description: "Computer vision system that identifies piece positions on a physical chessboard from a photo to reconstruct the digital game state.",
         techs: ["Python", "OpenCV", "Computer Vision"],
-        githubLink: "https://github.com/aladin20c"
+        image: "./public/assets/img2.png",
+        githubLink: "https://github.com/aladin20c/chess_computer_vision"
     },
     {
         title: "Carbon Footprint Calculator",
         description: "Mobile application for Viveris to calculate environmental impact, featuring a robust backend and cross-platform mobile UI.",
-        techs: ["Spring Boot", "React Native", "Java"],
-        githubLink: "https://github.com/aladin20c"
+        techs: ["Spring Boot","React" ,"React Native", "Java"],
+        image: "./public/assets/img3.png",
+        githubLink: "https://github.com/aladin20c/eco-boost-campus"
     }
 ];
 

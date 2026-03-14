@@ -27,13 +27,13 @@ export class NameHeader extends LitElement {
     /* Tablet Styles */
     @media (min-width: 768px) {
       a {
-        font-size: 2.8rem;
+        font-size: 2.6rem;
         line-height: 2.25rem;
       }
     }
 
     /* Desktop Styles */
-    @media (min-width: 1024px) {
+    @media (min-width: 1200px) {
       a {
         font-size: 3rem;
         line-height: 2.25rem;
@@ -382,7 +382,7 @@ export class PortfolioSection extends LitElement {
       z-index: 20;
       margin: 0 -24px;
       width: 100vw;
-      background-color: rgba(15, 23, 42, 0.75);
+      background-color: rgba(15, 23, 42, 0.25);
       padding: 20px 24px;
       backdrop-filter: blur(8px);
     }
@@ -693,8 +693,6 @@ export class ExperienceList extends LitElement {
   }
 }
 customElements.define('experience-list', ExperienceList);
-
-
 
 
 
@@ -1032,7 +1030,6 @@ export class EducationList extends LitElement {
   }
 }
 customElements.define('education-list', EducationList);
-
 
 
 
